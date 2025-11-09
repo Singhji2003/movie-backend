@@ -1,11 +1,18 @@
 import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
-
+import moviePosterRoutes from "./routes/moviePosterRoutes.js";
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use("/api/users", userRoutes);
-
+app.use("/api/movie-posters", moviePosterRoutes);
+app.use((err, req, res, next) => {
+  console.error("Global Error:", err);
+  res.status(500).json({
+    success: false,
+    message: err.message || "Something went wrong",
+  });
+});
 export default app;
