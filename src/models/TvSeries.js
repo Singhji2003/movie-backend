@@ -8,7 +8,7 @@ const tvSeriesSchema = new mongoose.Schema(
     genre: { type: String },
     startYear: { type: Number },
     numberOfSeasons: { type: Number },
-    status: { type: String, enum: ["Ongoing", "Completed", "Upcoming"] },
+    status: { type: String },
     poster: { type: String }, // path to uploaded file
     description: { type: String },
   },
