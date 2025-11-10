@@ -14,8 +14,7 @@ export const addTVSeries = async (req, res) => {
       description,
     } = req.body;
 
-    const poster = req.file ? `/uploads/posters/${req.file.filename}` : null;
-
+    const imageUrl = req.file.path;
     const newSeries = new TVSeries({
       name,
       rating,
@@ -25,7 +24,7 @@ export const addTVSeries = async (req, res) => {
       numberOfSeasons,
       status,
       description,
-      poster,
+      poster: imageUrl,
     });
 
     await newSeries.save();
