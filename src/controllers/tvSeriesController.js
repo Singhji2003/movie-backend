@@ -46,3 +46,30 @@ export const getAllTVSeries = async (req, res) => {
     res.status(500).json({ message: "Error fetching series" });
   }
 };
+
+export const deleteTVSeries = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const series = await TVSeries.findById(id);
+
+    if (!series) {
+      return res.status(404).json({
+        success: false,
+        message: "TV Series not found!",
+      });
+    }
+
+    // If you want to delete Cloudinary image too, tell me.
+
+    await TVSeries.findByIdAndDelete(id);
+
+    return res.json({
+      success: true,
+      message: "TV Series deleted successfully!",
+    });
+  } catch (error) {
+    console.error("❌ Delete Series Error:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

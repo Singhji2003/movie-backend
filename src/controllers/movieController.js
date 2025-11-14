@@ -38,3 +38,33 @@ export const getAllMovies = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const deleteMovie = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const movie = await Movie.findById(id);
+
+    if (!movie) {
+      return res.status(404).json({
+        success: false,
+        message: "Movie not found!",
+      });
+    }
+
+    // If you want to delete image from Cloudinary, tell me — I will add that part too.
+
+    await Movie.findByIdAndDelete(id);
+
+    return res.json({
+      success: true,
+      message: "Movie deleted successfully!",
+    });
+  } catch (error) {
+    console.error("❌ Delete Movie Error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
