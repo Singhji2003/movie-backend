@@ -1,5 +1,5 @@
 import express from "express";
-import upload from "../middleware/upload.js"; // same Cloudinary multer middleware
+import { upload } from "../middleware/upload.js"; // same Cloudinary multer middleware
 
 import {
   addTVSeries,

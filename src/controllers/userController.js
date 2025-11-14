@@ -7,39 +7,23 @@ export const getUsers = async (req, res) => {
 
 export const createUser = async (req, res) => {
   try {
-    const {
-      firstName,
-      lastName,
-      phoneNumber,
-      dob,
-      gender,
-      address,
-      height,
-      weight,
-      eyeColor,
-      hairColor,
-      experience,
-      prevWork,
-      skills,
-      email,
-    } = req.body;
+    const body = req.body;
 
-    const user = await User.create({
-      firstName,
-      lastName,
-      phoneNumber,
-      dob,
-      gender,
-      address,
-      height,
-      weight,
-      eyeColor,
-      hairColor,
-      experience,
-      prevWork,
-      skills,
-      email,
-    });
+    // File URLs from Cloudinary
+    if (req.files?.professionalHeadshot) {
+      body.professionalHeadshot = req.files.professionalHeadshot[0].path;
+    }
+
+    if (req.files?.fullBodyShot) {
+      body.fullBodyShot = req.files.fullBodyShot[0].path;
+    }
+
+    if (req.file) {
+      // resume single file
+      body.actingResume = req.file.path;
+    }
+
+    const user = await User.create(body);
 
     res.status(201).json({
       success: true,
