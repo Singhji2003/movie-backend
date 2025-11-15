@@ -1,7 +1,9 @@
+// middleware/upload.js
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import cloudinary from "../config/cloudinary.js";
 
+// (Optional) existing storage for movie posters – keep if you use elsewhere
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
@@ -12,22 +14,25 @@ const storage = new CloudinaryStorage({
 
 export const upload = multer({ storage });
 
-// Image Upload (Headshot & Full Body)
-const imageStorage = new CloudinaryStorage({
+// ✅ ONE storage for actor images + resumes
+const actorStorage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: "actor_profiles",
-    allowed_formats: ["jpg", "png", "jpeg"],
+  params: (req, file) => {
+    // Decide folder & allowed formats based on file type
+    if (file.mimetype === "application/pdf") {
+      return {
+        folder: "actor_resumes",
+        allowed_formats: ["pdf"],
+      };
+    }
+
+    // default: treat as image for actor profile
+    return {
+      folder: "actor_profiles",
+      allowed_formats: ["jpg", "jpeg", "png", "webp"],
+    };
   },
 });
 
-export const uploadImages = multer({ storage: imageStorage });
-// PDF Upload (Resume)
-const pdfStorage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "actor_resumes",
-    allowed_formats: ["pdf"],
-  },
-});
-export const uploadPDF = multer({ storage: pdfStorage });
+// ✅ Single multer instance to handle all actor files
+export const uploadActorFiles = multer({ storage: actorStorage });

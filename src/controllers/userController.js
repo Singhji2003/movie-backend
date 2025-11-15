@@ -9,18 +9,17 @@ export const createUser = async (req, res) => {
   try {
     const body = req.body;
 
-    // File URLs from Cloudinary
-    if (req.files?.professionalHeadshot) {
+    // File URLs from Cloudinary (set by multer-storage-cloudinary)
+    if (req.files?.professionalHeadshot?.[0]) {
       body.professionalHeadshot = req.files.professionalHeadshot[0].path;
     }
 
-    if (req.files?.fullBodyShot) {
+    if (req.files?.fullBodyShot?.[0]) {
       body.fullBodyShot = req.files.fullBodyShot[0].path;
     }
 
-    if (req.file) {
-      // resume single file
-      body.actingResume = req.file.path;
+    if (req.files?.actingResume?.[0]) {
+      body.actingResume = req.files.actingResume[0].path;
     }
 
     const user = await User.create(body);
