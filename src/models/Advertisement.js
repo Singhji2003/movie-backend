@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 const advertisementSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    rating: { type: Number, min: 0, max: 10, required: true },
+    name: { type: String },
+    rating: { type: Number },
     trailerLink: { type: String },
-    genre: { type: String, required: true },
+    genre: { type: String },
     releaseYear: { type: Number },
     description: { type: String },
-    posterUrl: { type: String, required: true }, // Cloudinary image
+    posterUrl: { type: String }, // Cloudinary image
   },
   { timestamps: true }
 );
