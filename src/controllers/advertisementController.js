@@ -1,4 +1,5 @@
 import Advertisement from "../models/Advertisement.js";
+import AdvertisementLink from "../models/AdvertisementLink.js";
 
 export const addAdvertisement = async (req, res) => {
   try {
@@ -68,5 +69,37 @@ export const deleteAdvertisement = async (req, res) => {
       success: false,
       message: error.message,
     });
+  }
+};
+
+export const addAdvertisementLink = async (req, res) => {
+  try {
+    const { youtubeLink, title, description } = req.body;
+
+    const advertisement = await AdvertisementLink.create({
+      youtubeLink,
+      title,
+      description,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Advertisement Link added successfully!",
+      advertisement,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getAllAdvertisementLinks = async (req, res) => {
+  try {
+    const advertisements = await AdvertisementLink.find().sort({
+      createdAt: -1,
+    });
+    res.json(advertisements);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
