@@ -93,6 +93,36 @@ export const addAdvertisementLink = async (req, res) => {
   }
 };
 
+export const deleteAdvertisementLink = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const advertisement = await AdvertisementLink.findById(id);
+
+    if (!advertisement) {
+      return res.status(404).json({
+        success: false,
+        message: "Advertisement not found!",
+      });
+    }
+
+    // If you want to delete image from Cloudinary, tell me — I will add that part too.
+
+    await AdvertisementLink.findByIdAndDelete(id);
+
+    return res.json({
+      success: true,
+      message: "Advertisement deleted successfully!",
+    });
+  } catch (error) {
+    console.error("❌ Delete Advertisement Error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const getAllAdvertisementLinks = async (req, res) => {
   try {
     const advertisements = await AdvertisementLink.find().sort({

@@ -6,6 +6,7 @@ import {
   deleteAdvertisement,
   addAdvertisementLink,
   getAllAdvertisementLinks,
+  deleteAdvertisementLink,
 } from "../controllers/advertisementController.js";
 
 const router = express.Router();
@@ -14,6 +15,7 @@ router.post("/", upload.single("poster"), addAdvertisement);
 router.get("/", getAllAdvertisements);
 router.post("/link", addAdvertisementLink);
 router.get("/link", getAllAdvertisementLinks);
+router.get("/link/:id", deleteAdvertisementLink);
 router.delete("/:id", deleteAdvertisement);
 
 export default router;
